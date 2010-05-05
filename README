@@ -1,0 +1,15 @@
+=== README ===
+
+Deacon-Test is an Android Application project (in Eclipse) that is intended for testing and demonstration of the Deacon push notifications library for Android.
+
+More information about Deacon is available at http://deacon.daverea.com/ and http://github.com/davidrea/Deacon/
+
+=== USAGE ===
+
+To import this project into Eclipse:
+
+1) Select File->Import...
+2) Select General->Existing Projects into Workspace
+3) Follow the prompts
+
+It will be necessary to rebuild the project after importing it, but Android's automatic build system should take it from there.
