@@ -25,9 +25,10 @@ public class Testing extends Activity implements DeaconServiceObserver {
 		this.textbox = (TextView) findViewById(R.id.textBox);
 		
 		try {
-			this.deacon = new Deacon("home.daverea.com",4670);
+			this.deacon = new Deacon("home.daverea.com",4670, this);
 //			deacon.joinChannel("1min", 0);
 			deacon.joinChannel("10sec", 0);
+			deacon.catchUpTimeOut(60);
 			deacon.register(this);
 			deacon.start();
 		} catch (UnknownHostException e) {
