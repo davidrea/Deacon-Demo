@@ -4,10 +4,82 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
-<TextView
-	android:id="@+id/textBox"  
-    android:layout_width="fill_parent" 
-    android:layout_height="fill_parent"
-    android:textSize="10sp" 
-    />
+    <TextView
+    	android:id="@+id/label_choose_channel"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:gravity="center"
+    	android:textStyle="bold"
+    	android:text="Choose a Meteor Channel"
+    	/>
+    <Spinner
+    	android:id="@+id/spinner_channel_selector"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:prompt="@string/channel_select_prompt"
+		/>
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		>
+		<ImageView
+			android:id="@+id/image_deacon_status"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:src="@drawable/not_running"
+			/>
+		<TextView
+			android:id="@+id/text_deacon_status"
+			android:layout_width="wrap_content"
+			android:layout_height="fill_parent"
+			android:padding="6px"
+			android:gravity="center_vertical"
+			android:text="Deacon not running"
+			android:layout_weight="2"
+			/>
+		<Button
+			android:id="@+id/button_service_startstop"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Start"
+			android:layout_weight="1"
+			/>
+	</LinearLayout>
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		>
+		<ImageView
+			android:id="@+id/image_connection_status"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:src="@drawable/network_disconnected"
+			/>
+		<TextView
+			android:id="@+id/text_connection_status"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:padding="6px"
+			android:gravity="center_vertical"
+			android:text="Network disconnected"
+			/>
+	</LinearLayout>
+    <TextView
+    	android:id="@+id/label_msgs_received"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:gravity="center"
+    	android:textStyle="bold"
+    	android:text="Push Messages and Deacon Output"
+    	/>
+	<TextView
+		android:id="@+id/textBox"  
+	    android:layout_width="fill_parent" 
+	    android:layout_height="fill_parent"
+	    android:background="#eeeeee"
+	    android:editable="false"
+	    android:textSize="10sp"
+	    />
 </LinearLayout>

@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">DeaconTest</string>
+    <string name="app_name">Deacon Demo</string>
+<string name="channel_select_prompt">Choose a Meteor Channel</string>
+<string-array name="meteor_channels_array">
+	<item>2sec</item>
+	<item>10sec</item>
+	<item>1min</item>
+	<item>10min</item>
+</string-array>
 </resources>
