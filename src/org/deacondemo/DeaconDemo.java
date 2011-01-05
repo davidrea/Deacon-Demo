@@ -17,6 +17,9 @@ import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -88,15 +91,48 @@ public class DeaconDemo extends Activity implements OnClickListener, OnItemSelec
 			mBoundDeaconDemoService.unregister();
 		}
 	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		System.out.println("DeaconDemo got onResume(), mBound = " + mIsBound);
+		if(mIsBound) {
+			mBoundDeaconDemoService.register(this);
+		}
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()) {
+		case R.id.quit:
+			// Kill off the service
+			if(mIsBound) mBoundDeaconDemoService.stopSelf();
+			finish();
+		}
+		return true;
+	}
 
 	public void onPush(DeaconResponse response) {
 		setNetworkState(true);
 		setDeaconState(true);
 		String currentText = (String) this.textbox.getText();
+
+		// Once the string runs off the end of the page, truncate it
+		if(currentText.split("\n").length > 100) {
+			currentText = currentText.substring(0, currentText.indexOf(currentText.split("\n")[100]));
+		}
+		
 		Calendar now = Calendar.getInstance();
 		this.textbox.setText("Push@"+
 				String.format("%02d", now.get(Calendar.HOUR_OF_DAY)) + ":" + 
-				String.format("%02d", now.get(Calendar.MINUTE)) + 
+				String.format("%02d", now.get(Calendar.MINUTE)) + ":" + 
 				String.format("%02d", now.get(Calendar.SECOND)) +
 				", Channel="+response.getChannel() + 
 				", Payload="+response.getPayload() + "\n" + currentText);

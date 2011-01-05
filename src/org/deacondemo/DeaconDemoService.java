@@ -6,7 +6,11 @@ import org.deacon.DeaconObserver;
 import org.deacon.DeaconResponse;
 
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.Bundle;
@@ -15,6 +19,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 public class DeaconDemoService extends Service implements DeaconObserver {
+	
+	private static final int HELLO_ID = 1;
 	
 	private Deacon deacon = null;
 	private final IBinder mBinder = new DeaconDemoServiceBinder();
@@ -88,8 +94,32 @@ public class DeaconDemoService extends Service implements DeaconObserver {
 	
 	@Override
 	public void onPush(DeaconResponse response) {
+		// Notify the activity if it is running
 		if(mActivity != null) {
 			mActivity.onPush(response);
+		}
+		else {
+			// Otherwise, create a notification if the pushed integer is prime
+			Integer payload = new Integer(Integer.parseInt(response.getPayload().trim()));
+			boolean isPrime = true;
+			for(int mod = 2; mod < payload; mod++) {
+				if(payload % mod == 0) isPrime = false;
+			}
+			String primestring = "";
+			if(isPrime) primestring = "is prime";
+			else primestring = "is not prime";
+			Log.d("DeaconDemoService", "payload = " + payload.toString() + ", which " + primestring);
+			if(isPrime) {
+				String ns = Context.NOTIFICATION_SERVICE;
+				NotificationManager mNotificationManager = (NotificationManager) getSystemService(ns);
+				Notification notification = new Notification(R.drawable.running, (CharSequence) ("Deacon Push: " + payload), System.currentTimeMillis());
+				notification.flags |= Notification.FLAG_AUTO_CANCEL;
+				notification.defaults |= Notification.DEFAULT_SOUND;
+				Intent notificationIntent = new Intent(this, DeaconDemo.class);
+				PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+				notification.setLatestEventInfo(getApplicationContext(), (CharSequence) "DeaconDemo", (CharSequence) ("Got Push: " + payload.toString()), contentIntent);
+				mNotificationManager.notify(HELLO_ID, notification);
+			}
 		}
 	}
 
